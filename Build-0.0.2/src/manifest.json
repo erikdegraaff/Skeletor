@@ -1,0 +1,13 @@
+{
+  "name": "Skeletor Build 0.0.2",
+  "short_name": "Skeletor Build 0.0.2",
+  "start_url": "index.html",
+  "display": "fullscreen",
+  "icons": [{
+    "src": "assets/imgs/logo.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#29434e",
+  "theme_color": "#29434e"
+}

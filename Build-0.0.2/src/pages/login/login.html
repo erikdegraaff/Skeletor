@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <ion-title>
+    	Login
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<div class="login">
+      <ion-list>
+        <ion-item>
+          <ion-label fixed>Naam</ion-label>
+          <ion-input type="text" [(ngModel)]="credentials.name" placeholder="Naam"></ion-input>
+        </ion-item> 
+        <ion-item>
+          <ion-label fixed>Wachtwoord</ion-label>
+          <ion-input type="password" [(ngModel)]="credentials.password" placeholder="Wachtwoord"></ion-input>
+        </ion-item> 
+        <ion-item>
+			<button ion-button full color="primary" (click)="login();">Login</button>
+        </ion-item> 
+	</ion-list>		
+	</div>
+</ion-content>

@@ -1,0 +1,156 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+
+
+$sidebar-width:18vw;
+$header-height: 56px;
+.menu-inner {
+	width:$sidebar-width;
+	background-color: color($colors, light, primary);
+}
+.sidebar,
+.rightbar,
+.right-content  {
+	height:100vh;
+	position: fixed;
+	overflow-y:scroll;
+	top:$header-height;
+}
+.right-content {
+	width:100vw - $sidebar-width;	
+	margin-left:$sidebar-width;
+	padding:1px;	
+	//background-color: color($colors, white);
+	padding-bottom:$header-height;	
+
+	p {
+		margin:20px;
+	}
+}
+
+.rightbar,
+.sidebar {
+	width: $sidebar-width;
+	background-color: darken(color($colors, light), 3%);
+	border-right:1px solid darken(color($colors, light), 3%);
+	padding-bottom:$header-height * 2;
+	.item, .item-ios, .item-md, .product-item {
+		background-color: transparent;
+		color: color($colors, dark, primary);
+		&.accordion-open, 
+		&.accorion-closed {
+		 background-color:color($colors, white, primary);			
+		}
+		&.accordion-open {
+			display: block;
+		}
+		&.accordion-closed {
+			display:none;
+		}
+		&.selected {
+			background-color:lighten(color($colors, primary), 30%);				
+		}
+	}
+}
+
+.dot {
+	width:14px;
+	height:14px;
+	border: 1px solid transparent;
+	border-radius:8px;
+    margin: 7px 8px 9px 0 !important;	
+}
+
+ion-card {
+	//border:1px solid color($colors, light);
+	margin:0px !important;
+
+	.item, .item-ios, .item-md, .item-wp {
+		padding-right: 16px;
+		&:last-child {
+			padding-right: 0px;
+			padding-left: 12px;
+		}
+	}
+	.select, .select-ios, .select-md, .select-wp {
+    	padding: 13px 8px 13px 8px;
+	}	
+
+	.item-input .item-inner{
+		color: color($colors, dark); 
+	    border-bottom-color: color($colors, light_gray); 
+	    -webkit-box-shadow: inset 0 -1px 0 0 color($colors, light_gray);
+	     box-shadow: inset 0 -1px 0 0 color($colors, light_gray);
+	}	
+}
+
+ion-grid, .ion-grid, .ion-grid-md, .ion-gid-ios {
+	padding:0px !important;
+	margin:0px !important;
+}
+.toolbar-title, 
+.toolbar-title-md,
+.toolbar-title-ios {
+	display: flex;
+	justify-content:space-between;
+	align-items: center;
+	.date {
+		align-self:flex-end;
+		display: flex;
+		align-items:center;
+		span {
+			margin-left: 10px;
+		}
+		.datetime-text {
+			border-bottom:1px solid white;
+		}
+	}	
+}
+
+ion-datetime {
+	position: relative;
+}
+
+
+// DRAGULA
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.6;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  font-family: sans-serif;
+}
+.gu-mirror .accordion-closed {
+  display: none !important;
+}
+.gu-hide {
+  display: none !important;
+}
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}

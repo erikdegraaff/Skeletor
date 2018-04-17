@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Product Groepen Beheren</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  
+  <div class="sidebar">
+    <ion-list [dragula]='"product-groups-list"' [dragulaModel]='productGroups'>
+      <div *ngFor="let productGroup of productGroups">              
+        <button ion-item (click)="editProductGroup(productGroup);">
+          <div class="dot" item-start [style.borderColor]="productGroup.color" [style.backgroundColor]="productGroup.color"></div>
+          {{productGroup.name}}
+           <ion-icon *ngIf="productGroup.id !== openProductGroup.id" name="checkmark" color="light_gray" item-end></ion-icon>
+          <ion-icon *ngIf="productGroup.id === openProductGroup.id" name="checkmark" [style.color]="productGroup.color" item-end></ion-icon>
+         </button>
+      </div>
+    </ion-list>
+  </div>
+
+  <div class="right-content">
+    <p *ngIf="openProductGroup.id === -1">Selecteer een productgroep</p>    
+    <ion-card *ngIf="openProductGroup.id != -1">
+      <ion-list>
+        <ion-item>
+          <ion-label fixed>Naam</ion-label>
+          <ion-input type="text" [(ngModel)]="openProductGroup.name" placeholder="Naam"></ion-input>
+        </ion-item> 
+        <ion-item>
+          <div class="color-picker" item-end>
+          	<div *ngFor="let label of labels">
+          		<div *ngIf="openProductGroup.color == label.color" class="dot" [style.borderColor]="label.color" [style.backgroundColor]="label.color"></div>
+          		<div *ngIf="openProductGroup.color != label.color && label.used == 0" class="dot" [style.borderColor]="label.color" (click)="setColor(label.color)"></div>
+              <div *ngIf="openProductGroup.color != label.color && label.used == 1" class="dot disabled"></div>
+          	</div>
+          </div>
+	      <ion-label fixed>Label</ion-label>
+          <ion-input type="text" [(ngModel)]="openProductGroup.color" disabled="true"></ion-input>  	
+        </ion-item>   
+<!--    <ion-item>
+          <ion-label fixed>Volgorde</ion-label>
+          <ion-input type="number" [(ngModel)]="openProductGroup.menu_order"></ion-input>
+        </ion-item>   
+ -->        <ion-item>      
+          <button *ngIf="(openProductGroup.id > 0)" ion-button item-end color="danger" clear (click)="removeProductGroup(openProductGroup);" [disabled]="checkProductCount(openProductGroup)">Verwijderen</button>
+          <button *ngIf="(openProductGroup.id > -1)" ion-button item-start color="primary" clear (click)="resetOpenProductGroup();">Annuleren</button>
+          <button ion-button item-start (click)="saveProductGroup(openProductGroup);" [disabled]="checkValues(openProductGroup)">Opslaan</button>          
+        </ion-item>
+
+      </ion-list>
+  </ion-card>  
+
+  </div>
+  <ion-fab left bottom>
+    <button ion-fab mini color="primary" (click)="addProductGroup();"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>

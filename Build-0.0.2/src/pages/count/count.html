@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <div>Frankeren {{openCustomer.name}}</div>
+      <div class="date">
+        <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="date" (ionChange)="changeDate()" max="{{today}}"></ion-datetime>
+      </div>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div class="sidebar">
+    <ion-list>
+      <div *ngFor="let customerGroup of customers">              
+        <button ion-item (click)="toggleCustomerGroup(customerGroup.letter);">
+          {{customerGroup.letter}}
+        </button>
+        <div *ngFor="let customer of customerGroup.customers">
+        <button ion-item *ngIf="customer.active === 1" (click)="countCustomer(customer);" [ngClass]="getClasses(customer)">
+              {{customer.name}}
+              <ion-icon *ngIf="customer.id !== openCustomer.id && customer.layout_id > 0 && customer.todays_count == 0" name="checkmark" color="light_gray" item-end></ion-icon>
+              <ion-icon *ngIf="customer.id === openCustomer.id && customer.layout_id > 0 || customer.todays_count > 0" name="checkmark" color="primary" item-end></ion-icon>
+              <ion-icon *ngIf="customer.layout_id == 0" name="warning" color="danger" item-end></ion-icon>
+        </button>
+      </div>
+      </div>
+    </ion-list>
+  </div>
+
+  	<div class="right-content">
+      <p *ngIf="openCustomer.id === -1">Selecteer een klant</p>
+  		<ion-card *ngIf="openCustomer.id != -1">
+      <ion-grid class="layout-grid">
+        <ion-row *ngFor="let r of rows">
+          <ion-col *ngFor="let c of cols">
+            <div *ngIf="getNodeByIndex((r.num * cols.length) + c.num) && getNodeByIndex((r.num * cols.length) + c.num).type === 'product'" [ngClass]="(getNodeByIndex((r.num * cols.length) + c.num).lastChanged === 1) ? 'counter last-changed' : 'counter'">
+              <button (tap)="subs(getNodeByIndex((r.num * cols.length) + c.num))" [style.backgroundColor]="getNodeByIndex((r.num * cols.length) + c.num).product.color" [ngClass]="(getNodeByIndex((r.num * cols.length) + c.num).subs === 1) ? 'count-btn tapped' : 'count-btn'">-</button>              
+              <input type="number" pattern="[0-9]*" placeholder="0" (focus)="$event.target.select()" (blur)="saveOnBlur(getNodeByIndex((r.num * cols.length) + c.num))" [(ngModel)]="getNodeByIndex((r.num * cols.length) + c.num).count"/>
+              <button class="count-btn" (tap)="add(getNodeByIndex((r.num * cols.length) + c.num))" [style.backgroundColor]="getNodeByIndex((r.num * cols.length) + c.num).product.color" [ngClass]="(getNodeByIndex((r.num * cols.length) + c.num).add === 1) ? 'count-btn tapped' : 'count-btn'">+</button>              
+            </div> 
+            <div *ngIf="getNodeByIndex((r.num * cols.length) + c.num) && getNodeByIndex((r.num * cols.length) + c.num).type === 'text'">{{getNodeByIndex((r.num * cols.length) + c.num).value}}</div> 
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+		</ion-card>
+	</div>
+</ion-content>

@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Klanten</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  
+  <div class="sidebar">
+    <ion-list>
+      <div *ngFor="let customerGroup of customers">              
+        <button ion-item (click)="toggleCustomerGroup(customerGroup.letter);">
+          {{customerGroup.letter}}
+        </button>
+        <button ion-item *ngFor="let customer of customerGroup.customers" (click)="editCustomer(customer);" [ngClass]="(openCustomerGroup === customer.letter) ? 'accordion-open' : 'accordion-closed'">
+              {{customer.name}} 
+              <ion-icon *ngIf="customer.id !== openCustomer.id && customer.layout_id > 0" name="checkmark" color="light_gray" item-end></ion-icon>
+              <ion-icon *ngIf="customer.id === openCustomer.id && customer.layout_id > 0" name="checkmark" color="primary" item-end></ion-icon>
+              <ion-icon *ngIf="customer.layout_id == 0" name="warning" color="danger" item-end></ion-icon>
+        </button>
+      </div>
+    </ion-list>
+  </div>
+
+
+  <div class="right-content">
+    <p *ngIf="openCustomer.id === -1">Selecteer een klant</p>
+    <ion-card *ngIf="openCustomer.id != -1">
+
+      <ion-list>
+        <ion-item>
+          <ion-label fixed>Naam</ion-label>
+          <ion-input type="text" [(ngModel)]="openCustomer.name" placeholder="Naam"></ion-input>
+        </ion-item> 
+        <ion-item>
+          <ion-label fixed>Frankeer Layout</ion-label>
+            <ion-select multiple="false" okText="Ok" cancelText="Annuleren" interface="popover" [(ngModel)]="openCustomer.layout_id">
+              <ion-option *ngFor="let layout of layouts" [value]="layout.id" selected="false">{{layout.name}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Factuur Layout</ion-label>
+            <ion-select disabled="true" multiple="false" okText="Ok" cancelText="Annuleren" interface="popover">
+              <ion-option *ngFor="let layout of layouts" [value]="layout.id" selected="false">{{layout.name}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Actief</ion-label>
+            <ion-select multiple="false" okText="Ok" cancelText="Annuleren" interface="popover" [(ngModel)]="openCustomer.active">
+              <ion-option [value]="0" selected="false">Nee</ion-option>
+              <ion-option [value]="1" selected="true">Ja</ion-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>      
+          <button *ngIf="(openCustomer.id > 0)" ion-button item-end color="danger" clear (click)="removeCustomer(openCustomer);">Verwijderen</button>
+          <button *ngIf="(openCustomer.id > -1)" ion-button item-start color="primary" clear (click)="resetOpenCustomer();">Annuleren</button>
+          <button ion-button item-start (click)="saveCustomer(openCustomer);" [disabled]="checkValues(openCustomer)">Opslaan</button>          
+        </ion-item>
+      </ion-list>
+
+  </ion-card>  
+  </div>
+  <ion-fab left bottom>
+    <button ion-fab mini color="primary" (click)="addCustomer();"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>

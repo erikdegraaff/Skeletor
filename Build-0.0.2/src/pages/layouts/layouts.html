@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Layouts Beheren</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  
+  <div class="sidebar">
+     <ion-list>
+      <div *ngFor="let layout of layouts">              
+        <button ion-item (click)="editLayout(layout);">
+          {{layout.name}}
+           <ion-icon *ngIf="layout.id !== openLayout.id" name="checkmark" color="light_gray" item-end></ion-icon>
+           <ion-icon *ngIf="layout.id === openLayout.id" name="checkmark" color="primary" item-end></ion-icon>
+         </button>
+      </div>
+    </ion-list>
+  </div>
+
+  <div class="rightbar">
+     <ion-list  *ngIf="openLayout.id != -1">
+      <div *ngFor="let productGroup of productGroups">              
+        <button ion-item (click)="toggleProductGroup(productGroup.id);">
+          <div class="dot" item-start [style.backgroundColor]="productGroup.color"></div>
+          {{productGroup.name}}
+        </button>
+        <div class="product-item" *ngFor="let product of productGroup.products" [ngClass]="(openProductGroup === product.product_group) ? 'accordion-open' : 'accordion-closed'">
+            <div class="product-bag" [dragula]='"bag"'>
+              <div *ngIf="product.in_use !== 1" class="product" id="product{{product.id}}" [style.borderColor]="productGroup.color" [style.color]="productGroup.color">
+                  {{product.name}}
+              </div>
+            </div>
+        </div>
+      </div>
+    </ion-list>
+  </div>  
+
+  <div class="right-content">
+    <p *ngIf="openLayout.id === -1">Selecteer een layout</p>    
+    <ion-card *ngIf="openLayout.id != -1">
+       <ion-list>
+        <ion-item>
+          <ion-label fixed>Naam</ion-label>
+          <ion-input type="text" [(ngModel)]="openLayout.name" (ionBlur)="saveLayout(openLayout)" placeholder="Naam"></ion-input>
+        </ion-item> 
+        <ion-item>      
+          <button *ngIf="(openLayout.id > 0)" ion-button item-end color="danger" clear (click)="removeLayout(openLayout);">Verwijderen</button>
+          <button *ngIf="(openLayout.id > -1)" ion-button item-start color="primary" clear (click)="resetOpenLayout();">{{cancelText}}</button>
+          <button ion-button item-start (click)="saveLayoutFromButton(openLayout);" [disabled]="checkValues(openLayout)">Opslaan</button>          
+        </ion-item>
+      </ion-list>
+      <ion-grid class="layout-grid" *ngIf="productGroups">
+      	<ion-row *ngFor="let r of rows">
+      		<ion-col *ngFor="let c of cols" [dragula]='"bag"' id="rc{{r.num}}-{{c.num}}-{{(r.num * cols.length) + c.num}}" (click)="addTextNode(r.num,c.num, $event)">
+               <div (click)="removeNode(getNodeByIndex((r.num * cols.length) + c.num))" *ngIf="getNodeByIndex((r.num * cols.length) + c.num) && getNodeByIndex((r.num * cols.length) + c.num).type === 'product'" id="node{{getNodeByIndex((r.num * cols.length) + c.num).id}}" class="product" [style.borderColor]="getProductById(getNodeByIndex((r.num * cols.length) + c.num).product_id).pg_color" [style.color]="getProductById(getNodeByIndex((r.num * cols.length) + c.num).product_id).pg_color">{{getProductById(getNodeByIndex((r.num * cols.length) + c.num).product_id).name}}</div> 
+               <div (click)="removeNode(getNodeByIndex((r.num * cols.length) + c.num))" *ngIf="getNodeByIndex((r.num * cols.length) + c.num) && getNodeByIndex((r.num * cols.length) + c.num).type === 'text'"  id="node{{getNodeByIndex((r.num * cols.length) + c.num).id}}">{{getNodeByIndex((r.num * cols.length) + c.num).value}}</div> 
+          </ion-col>
+      	</ion-row>
+      </ion-grid>
+   </ion-card>  
+  </div>
+
+  <ion-fab left bottom>
+    <button ion-fab mini color="primary" (click)="addLayout();"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>

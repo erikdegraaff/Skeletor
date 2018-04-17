@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <div>Overzicht {{openCustomer.name}}</div>
+      <div class="date">
+        <span>Van</span>
+        <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dateFrom" (ionChange)="getData()" max="{{today}}"></ion-datetime>
+        <span>tot</span>
+        <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dateTo" (ionChange)="getData()" min="{{dateFrom}}" max="{{today}}"></ion-datetime>
+      </div>
+  </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  
+  <div class="sidebar">
+    <ion-list>
+      <div *ngFor="let customerGroup of customers">              
+        <button ion-item (click)="toggleCustomerGroup(customerGroup.letter);">
+          {{customerGroup.letter}}
+        </button>
+        <div *ngFor="let customer of customerGroup.customers">
+          <button ion-item *ngIf="customer.active === 1" (click)="viewCustomer(customer);" [ngClass]="getClasses(customer)">
+                {{customer.name}} 
+                <ion-icon *ngIf="customer.id !== openCustomer.id && customer.layout_id > 0" name="checkmark" color="light_gray" item-end></ion-icon>
+                <ion-icon *ngIf="customer.id === openCustomer.id && customer.layout_id > 0" name="checkmark" color="primary" item-end></ion-icon>
+                <ion-icon *ngIf="customer.layout_id == 0" name="warning" color="danger" item-end></ion-icon>
+          </button>
+        </div>
+      </div>
+    </ion-list>
+  </div>
+
+
+  	<div class="right-content">
+      <p *ngIf="openCustomer.id === -1">Selecteer een klant</p>          
+  		<ion-card *ngIf="openCustomer.id != -1">
+      <ion-grid class="layout-grid">
+        <ion-row *ngFor="let total of totals">
+          <ion-col>{{getDateString(total.timestamp)}}</ion-col>
+          <ion-col [style.color]="total.color">{{total.pg_name}}</ion-col>
+          <ion-col [style.color]="total.color">{{total.name}}</ion-col>
+          <ion-col>{{formatPrice(total.price_sales)}}</ion-col>
+          <ion-col>{{total.count}}</ion-col>
+          <ion-col>{{formatPrice(total.total)}}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+		</ion-card>
+	</div>
+</ion-content>

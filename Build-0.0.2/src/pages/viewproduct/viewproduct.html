@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <div>Producten Overzicht</div>
+      <div class="date">
+        <span>Van</span>
+        <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dateFrom" (ionChange)="getData()" max="{{today}}"></ion-datetime>
+        <span>tot</span>
+        <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dateTo" (ionChange)="getData()" min="{{dateFrom}}" max="{{today}}"></ion-datetime>
+      </div>
+  </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+   <div class="sidebar">
+    <ion-list>
+      <div *ngFor="let productGroup of productGroups">              
+        <button ion-item (click)="toggleProductGroup(productGroup.id, $event);">
+          <div class="dot" item-start [style.borderColor]="productGroup.color" [style.backgroundColor]="productGroup.color"></div>
+          	{{productGroup.name}}
+          <button class="select-all" (click)="selectProductGroup(productGroup)" item-end>
+              <ion-icon *ngIf="productGroup.selected !== 1" name="checkmark" color="light_gray" item-end></ion-icon>
+              <ion-icon *ngIf="productGroup.selected === 1" name="checkmark" [style.color]="productGroup.color" item-end></ion-icon>
+          </button>
+        </button>
+
+        <button ion-item *ngFor="let product of productGroup.products" (click)="selectProduct(product);" [ngClass]="(openProductGroup === product.product_group) ? 'accordion-open' : 'accordion-closed'">
+              {{product.name}}
+              <ion-icon *ngIf="product.selected !== 1" name="checkmark" color="light_gray" item-end></ion-icon>
+              <ion-icon *ngIf="product.selected === 1" name="checkmark" [style.color]="product.pg_color" item-end></ion-icon>
+        </button>
+      </div>
+    </ion-list>
+  </div>
+ 	<div class="right-content">
+    <p *ngIf="products.length === 0">Selecteer een of meerdere producten</p>            
+  	<ion-card>
+      <ion-grid class="layout-grid">
+        <ion-row *ngFor="let product of products">
+           <ion-col *ngIf="product.from !== product.to">{{getDateString(product.from)}} - {{getDateString(product.to)}}</ion-col>
+           <ion-col *ngIf="product.from === product.to">{{getDateString(product.from)}}</ion-col>
+          <ion-col [style.color]="product.color">{{product.pg_name}} {{product.name}}</ion-col>
+             <ion-col>{{product.count}}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+		</ion-card>
+	</div>
+  <ion-fab right bottom>
+    <button ion-fab mini color="primary" (click)="print();"><ion-icon name="print"></ion-icon></button>
+  </ion-fab>
+</ion-content>

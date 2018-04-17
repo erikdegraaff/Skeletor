@@ -1,0 +1,117 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+// Font path is used to include ionicons,
+// roboto, and noto sans fonts
+$font-path: "../assets/fonts";
+
+
+// The app direction is used to include
+// rtl styles in your app. For more info, please see:
+// http://ionicframework.com/docs/theming/rtl-support/
+$app-direction: ltr;
+
+
+@import "ionic.globals";
+	
+
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/theming/overriding-ionic-variables/
+
+
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+  primary:    #03A9F4, 
+  secondary:  #29434e,
+  danger:     #F44336,
+  white:      #fcfcfc,		
+  light:      #f4f4f4,
+  light_gray: #dedede,
+  gray:		  #999,	
+  dark:       #444
+);
+
+  // primary:    	light blue, accent color
+  // secondary:  	dark blue, base color
+  // danger:     	red.. for danger
+  // white:      	lightest gray bg right-content		
+  // light:      	gray sidebar
+  // light_gray: 	gray for borders
+  // gray::;		???? not used ????
+  // dark:       	text color
+
+$text-input-highlight-color-valid: color($colors, light_gray);
+
+// $list-border-color: color($colors, light_gray);
+// $list-md-border-color: color($colors, light_gray);
+// $list-ios-border-color: color($colors, light_gray);
+
+$text-color: color($colors, dark);
+
+$list-border-color: 	transparent;
+$list-md-border-color: 	transparent;
+$list-ios-border-color: transparent;
+$list-wp-border-color: 	transparent;
+
+$card-box-shadow:		none;
+$card-md-box-shadow:	none;
+$card-ios-box-shadow:	none;
+$card-wp-box-shadow:	none;
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+
+
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+
+
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/ionicons/
+
+@import "ionic.ionicons";
+
+
+// Fonts
+// --------------------------------------------------
+
+@import "roboto";
+@import "noto-sans";

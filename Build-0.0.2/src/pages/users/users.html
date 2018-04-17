@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Koeriers</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  
+  <div class="sidebar">
+    <ion-list>
+        <button ion-item *ngFor="let user of users" (click)="editUser(user);">
+              {{user.name}} 
+            <ion-icon *ngIf="user.id !== openUser.id" name="checkmark" color="light_gray" item-end></ion-icon>
+            <ion-icon *ngIf="user.id === openUser.id" name="checkmark" color="primary" item-end></ion-icon>
+        </button>
+    </ion-list>
+  </div>
+
+
+  <div class="right-content">
+    <p *ngIf="openUser.id === -1">Selecteer een koerier</p>    
+    <ion-card *ngIf="openUser.id != -1">
+
+      <ion-list>
+        <ion-item>
+          <ion-label fixed>Naam</ion-label>
+          <ion-input type="text" [(ngModel)]="openUser.name" placeholder="Naam"></ion-input>
+        </ion-item> 
+        <ion-item>
+          <ion-label fixed>Email</ion-label>
+          <ion-input type="email" [(ngModel)]="openUser.email" placeholder="Email"></ion-input>
+        </ion-item> 
+        <ion-item>
+          <ion-label fixed>Wachtwoord</ion-label>
+          <ion-input type="password" [(ngModel)]="openUser.password" placeholder="Wachtwoord"></ion-input>
+        </ion-item> 
+        <ion-item>
+          <ion-label fixed>Admin</ion-label>
+            <ion-select multiple="false" okText="Ok" cancelText="Annuleren" interface="popover" [(ngModel)]="openUser.admin">
+              <ion-option [value]="0" selected="true">Nee</ion-option>
+              <ion-option [value]="1" selected="false">Ja</ion-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>      
+          <button *ngIf="(openUser.id > 0)" ion-button item-end color="danger" clear (click)="removeUser(openUser);">Verwijderen</button>
+          <button *ngIf="(openUser.id > -1)" ion-button item-start color="primary" clear (click)="resetOpenUser();">Annuleren</button>
+          <button ion-button item-start (click)="saveUser(openUser);" [disabled]="checkValues(openUser)">Opslaan</button>          
+        </ion-item>
+      </ion-list>
+
+  </ion-card>  
+  </div>
+  <ion-fab left bottom>
+    <button ion-fab mini color="primary" (click)="addUser();"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>
